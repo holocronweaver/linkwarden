@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:16-alpine
+    user: '${UID:-0}:${GID:-0}'
     env_file: .env
     restart: always
     volumes:
@@ -12,6 +13,7 @@ services:
     restart: always
     # build: . # uncomment to build from source
     image: ghcr.io/linkwarden/linkwarden:latest # comment to build from source
+    user: '${UID:-0}:${GID:-0}'
     ports:
       - 3000:3000
     volumes:
@@ -21,6 +23,7 @@ services:
       - meilisearch
   meilisearch:
     image: getmeili/meilisearch:v1.12.8
+    user: '${UID:-0}:${GID:-0}'
     restart: always
     env_file:
       - .env

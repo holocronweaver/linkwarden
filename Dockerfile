@@ -14,6 +14,8 @@ FROM node:22.14-bullseye-slim AS main-app
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+ENV HOME=/data/home
+
 RUN mkdir /data
 
 WORKDIR /data
@@ -46,7 +48,8 @@ RUN set -eux && \
 COPY . .
 
 RUN yarn prisma:generate && \
-    yarn web:build
+    yarn web:build && \
+    chmod -R u+rwX,g+rwX,o+rwX /data
 
 HEALTHCHECK --interval=30s \
             --timeout=5s \
